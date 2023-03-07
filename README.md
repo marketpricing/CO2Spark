@@ -36,7 +36,7 @@ Perusahaan dan Pemerintah.
 
 ![image](https://user-images.githubusercontent.com/79232239/223451382-e231ddd9-c678-4656-b0d2-ccc4e9d1d129.png)
 
-**Low Fidelity Wireframe
+**Low Fidelity Wireframe**
 
 Sign up
 
@@ -58,7 +58,7 @@ Calculator-Multiple input
 
 ![image](https://user-images.githubusercontent.com/79232239/223452029-ebadc75c-5aab-464c-a249-3a54fe9a4f05.png)
 
-**Gantt-Chart pengerjaan proyek dalam kurun waktu 1 semester**
+## Gantt-Chart pengerjaan proyek dalam kurun waktu 1 semester
 
 ![image](https://user-images.githubusercontent.com/79232239/223452179-91f494b3-178b-451d-9cab-109e0c4abfa3.png)
 
