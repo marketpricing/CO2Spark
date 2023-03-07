@@ -36,7 +36,7 @@ Perusahaan dan Pemerintah.
 
 ![image](https://user-images.githubusercontent.com/79232239/223451382-e231ddd9-c678-4656-b0d2-ccc4e9d1d129.png)
 
-**Low Fidelity Wireframe**
+## Low Fidelity Wireframe
 
 Sign up
 
