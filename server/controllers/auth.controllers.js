@@ -100,3 +100,54 @@ exports.registerController = (req, res) => {
 };
 
 
+exports.activationController = (req, res) => {
+  const { token } = req.body;
+
+  if (token) {
+    jwt.verify(token, process.env.JWT_ACCOUNT_ACTIVATION, (err, decoded) => {
+      if (err) {
+        console.log("Aktivasi gagal");
+        return res.status(401).json({
+          errors: "Link sudah kedaluwarsa. Silakan sign up kembali",
+        });
+      } else {
+        //Proses Decoding JWT apabila KODE LINK sesuai
+
+        const { name, email, password } = jwt_decode(token);
+
+        console.log(email);
+
+        //PROSES assign User baru ke DATABASE dari data hasil decode token
+        const user = new User({
+          name,
+          email,
+          password,
+        }); //noSql code again
+        //PROSES assign dataUser baru ke database
+
+        //const userdata= new Userdata({_id = user_id})
+        //Handler
+        user.save((err, user) => {
+          if (err) {
+            console.log("Save error", errorHandler(err));
+            return res.status(401).json({
+              errors: errorHandler(err),
+            });
+          } else {
+            return res.json({
+              success: true,
+              message: user,
+              message: "Aktivasi sukses silakan kembali ke halaman login",
+            });
+          }
+        });
+      }
+    });
+  } else {
+    return res.json({
+      message: "Terdapat kesalahan, silakan tunggu atau coba kembali.",
+    });
+  }
+};
+
+ 
