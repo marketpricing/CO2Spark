@@ -150,4 +150,73 @@ exports.activationController = (req, res) => {
   }
 };
 
+
+
  
+exports.signinController = (req, res) => {
+  const { email, password } = req.body;
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    const firstError = errors.array().map(error => error.msg)[0];
+    return res.status(422).json({
+      errors: firstError
+    });
+  } else {
+    // check if user exist
+    User.findOne({
+      email
+    }).exec((err, user) => {
+      if (err || !user) {
+        return res.status(400).json({
+          errors: 'Email tersebut tidak ditemukan. Silakan registrasi.'
+        });
+      }
+      // authenticate
+      if (!user.authenticate(password)) {
+        return res.status(400).json({
+          errors: 'Password tidak sesuai'
+        });
+      }
+      // generate a token and send to client
+      const token = jwt.sign(
+        {
+          _id: user._id
+        },
+        process.env.JWT_SECRET,
+        {
+          expiresIn: '7d'
+        }
+      );
+      const userId = user._id;
+       userData.findOne({user_id : userId}).exec((err, UserData) => {
+        if (err || !UserData) {
+            return res.status(400).json({
+                error: 'User data tidak ditemukan'
+            });
+        }
+
+
+        const { _id, name, email, role, link_profil, institusi, webinar } = user;
+        //untuk localstorage tidak bisa update parameter baru
+        
+        return res.json({  
+          token,
+          user: {
+            _id,
+            name,
+            email,
+            role,
+            webinar,
+            institusi,
+            link_profil,
+
+
+            
+          },
+          UserData
+        });
+    });
+      
+    });
+  }
+};
