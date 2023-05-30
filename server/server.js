@@ -2,6 +2,8 @@ const express = require('express')
 const morgan = require('morgan')
 const connectDB = require('./config/db')
 const bodyParser = require('body-parser')
+const fs = require('fs');
+const tf = require('@tensorflow/tfjs-node');
 const cors = require('cors')
 // Config dotev
 require('dotenv').config({
@@ -18,8 +20,22 @@ connectDB();
 app.use(bodyParser.json())
 // Load routes
 const authRouter = require('./routes/auth.route')
+const appRouter = require('./routes/user.route')
 
-
+app.post('/predict', async (req, res) => {
+    // Load model
+    const modelPath = './model/model.json';
+    const model = await tf.loadLayersModel(`file://${modelPath}`);
+  
+    // Predict using model
+    const data = req.body.data;
+    const input = tf.tensor(data);
+    const output = model.predict(input);
+  
+    // Send response
+    res.send(output);
+  });
+  
 // Dev Logginf Middleware
 
 
@@ -32,8 +48,7 @@ app.use(morgan('dev'))
 
 // Use Routes
 app.use('/api', authRouter)
-
-
+app.use('/api', appRouter)
 app.use((req, res) => {
     res.status(404).json({
         success: false,
