@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from "react-toastify";
+import { authenticate, isAuth } from "../../helpers/auth";
 
+import axios from 'axios'
 function SignIn() {
+  const navigate= useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -12,11 +17,39 @@ function SignIn() {
     setPassword(e.target.value);
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    // Perform sign-up logic here
-    console.log('Email:', email);
-    console.log('Password:', password);
+  const handleSubmit = (e) => {
+    console.log(process.env.REACT_APP_API_URL);
+    e.preventDefault();
+    if (email && password) {
+  
+      axios
+        .post(`${process.env.REACT_APP_API_URL}/login`, {
+          email,
+          password
+        })
+        .then((res) => {
+          // Authenticate MEMBUAT SET COOKIE TOKEN (JWT SECRET)
+      
+          authenticate(res, () => {
+       
+         
+            if (isAuth() && isAuth().role === "admin") {
+              navigate("/admin");
+              toast.success(`Selamat datang ${res.data.user.name}!`);
+            } else {
+              navigate("/beranda");
+              toast.success(`Selamat datang ${res.data.user.name}!`);
+            }
+          });
+        })
+        .catch((err) => {
+          
+          console.log(err.response);
+          toast.error(err.response.data.errors);
+        });
+    } else {
+      toast.error("Isikan keseluruhan informasi Anda");
+    }
   };
 
   return (
