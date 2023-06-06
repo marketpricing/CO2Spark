@@ -25,9 +25,7 @@ const applicationRouter = require('./routes/application.route')
 // Dev Logginf Middleware
 
 
-app.use(cors({
-    origin: process.env.CLIENT_URL
-}))
+app.use(cors())
 app.use(morgan('dev'))
 
 

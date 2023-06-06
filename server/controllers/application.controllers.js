@@ -7,16 +7,16 @@ const axios = require("axios");
 const { errorHandler } = require("../helpers/dbErrorHandling.js");
 exports.createPredictHistory = async (req, res) => {
   let { engine_size, cylinders, fuel_consumption, transmission, user_id } = req.body;
-  engine_size = 3.7;
-  cylinders = 6;
-  fuel_consumption =  25;
-  transmission = 1;
+  engine_size = parseInt(engine_size);
+  cylinders  = parseInt(cylinders);
+  transmission  = parseInt(transmission);
+  fuel_consumption = parseInt(fuel_consumption);
   user_id= "6476b2284053c73bfe2d93ac";
   data = [
     {
       "Engine Size(L)": engine_size,
-      Cylinders: cylinders,
-      Transmission: transmission,
+      "Cylinders": cylinders,
+      "Transmission": transmission,
       "Fuel Consumption Comb (mpg)": fuel_consumption,
     },
   ];
@@ -26,9 +26,9 @@ exports.createPredictHistory = async (req, res) => {
     .post("https://ai-backend-c02-spark.azurewebsites.net/predict", payload)
     .then((response) => {
       // Handle successful response
-      console.log("Success:", response.data);
+      
       predictive_result = response.data.prediction[0];
-      console.log(predictive_result);
+  
 
     })
     .catch((error) => {
