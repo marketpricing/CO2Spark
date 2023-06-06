@@ -51,7 +51,7 @@ exports.registerController = (req, res) => {
             return res.json({
               success: true,
               message: user,
-              message: "Aktivasi sukses silakan kembali ke halaman login",
+              message: "Registrasi sukses silakan kembali ke halaman login",
             });
           }
         });
