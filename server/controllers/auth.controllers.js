@@ -65,6 +65,7 @@ exports.registerController = (req, res) => {
  
 exports.signinController = (req, res) => {
   const { email, password } = req.body;
+  console.log(email)
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     const firstError = errors.array().map(error => error.msg)[0];
@@ -77,12 +78,15 @@ exports.signinController = (req, res) => {
       email
     }).exec((err, user) => {
       if (err || !user) {
+        console.log("ERROR1")
         return res.status(400).json({
           errors: 'Email tersebut tidak ditemukan. Silakan registrasi.'
         });
       }
       // authenticate
       if (!user.authenticate(password)) {
+        console.log("ERROR2")
+
         return res.status(400).json({
           errors: 'Password tidak sesuai'
         });
@@ -97,10 +101,17 @@ exports.signinController = (req, res) => {
           expiresIn: '7d'
         }
       );
-     
+      const { _id, name, email } = user;
         return res.json({  
-          token
-          
+          token,
+          user: {
+            _id,
+            name,
+            email,
+           
+
+            
+          },
         });
 
     });
