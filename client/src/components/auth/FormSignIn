@@ -1,0 +1,53 @@
+import React, { useState } from 'react';
+
+function SignIn() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value);
+  };
+
+  const handlePasswordChange = (e) => {
+    setPassword(e.target.value);
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    // Perform sign-up logic here
+    console.log('Email:', email);
+    console.log('Password:', password);
+  };
+
+  return (
+    <form
+      className="w-full h-[80%] justify-between items-center flex flex-col  "
+      onSubmit={handleSubmit}
+    >
+      <div className="w-full mb-4">
+        <input
+          className="border w-full rounded-3xl py-2 px-3 border-blue-dark"
+          type="email"
+          id="email"
+          value={email}
+          onChange={handleEmailChange}
+          placeholder="Email"
+        />
+      </div>
+      <div className="w-full mb-4">
+        <input
+          className="border w-full  rounded-3xl py-2 px-3 border-blue-dark"
+          type="text"
+          id="password"
+          value={password}
+          onChange={handlePasswordChange}
+          placeholder="Password"
+        />
+      </div>
+      <button  className="border w-fit rounded-3xl py-1 px-3 border-blue-dark" type="submit">Sign In</button>
+    </form>
+  
+  );
+}
+
+export default SignIn;
